@@ -9,7 +9,7 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 9, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 11, "versioduo:samd:strip");
 
 static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
 static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
@@ -96,21 +96,22 @@ private:
 
   struct {
     float volume;
+    uint8_t aftertouch;
+
     struct {
       bool active;
       V2Music::Playing<128> playing;
     } bar;
 
     struct {
-      uint8_t velocity[128];
-    } notes;
+      uint8_t velocity;
+      uint8_t aftertouch;
+    } notes[128];
   } _channels[16]{};
 
   struct {
-    struct {
-      uint8_t channel;
-      uint8_t velocity;
-    } notes;
+    uint8_t channel;
+    uint8_t brightness;
   } _leds[128]{};
 
   float _rainbow{};
@@ -136,11 +137,14 @@ private:
     }
 
     for (uint8_t ch = 0; ch < 16; ch++) {
-      _channels[ch].volume = 100.f / 127.f;
+      _channels[ch].volume     = 100.f / 127.f;
+      _channels[ch].aftertouch = 0;
       _channels[ch].bar.playing.reset();
 
-      for (uint8_t i = 0; i < V2Base::countof(_channels[0].notes.velocity); i++)
-        _channels[ch].notes.velocity[i] = 0;
+      for (uint8_t i = 0; i < V2Base::countof(_channels[0].notes); i++) {
+        _channels[ch].notes[i].aftertouch = 0;
+        _channels[ch].notes[i].velocity   = 0;
+      }
     }
 
     for (uint8_t i = 0; i < V2Base::countof(_leds); i++)
@@ -148,7 +152,7 @@ private:
 
     _rainbow = 0;
     LED.reset();
-    LED.setHSV(V2Color::Orange, 0.8, 0.15);
+    LED.setHSV(V2Color::Orange, 0.95, 0.25);
 
     LEDExt.reset();
   }
@@ -176,8 +180,8 @@ private:
       const float s = (float)config.channels[ch].color.s / 127.f;
       const float v = (float)config.channels[ch].color.v / 127.f;
 
-      const float fraction   = (float)velocity / 127.f;
-      const float adjusted   = 0.1f + (0.9f * fraction);
+      const float fraction   = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : velocity) / 127.f;
+      const float adjusted   = 0.3f + (0.7f * fraction);
       const float brightness = _channels[ch].volume * adjusted * v;
 
       const uint8_t count = ceilf((float)config.channels[ch].count * fraction);
@@ -197,8 +201,8 @@ private:
   // Show individual notes.
   void updateLEDsNotes(bool force = false) {
     for (uint8_t i = 0; i < config.leds.count; i++) {
-      uint8_t channel  = 0;
-      uint8_t velocity = 0;
+      uint8_t channel    = 0;
+      uint8_t brightness = 0;
 
       // Find an active note in one of the 16 channels. The note in the
       // highest channel number wins.
@@ -216,21 +220,29 @@ private:
         if (note > 127)
           continue;
 
-        if (_channels[ch].notes.velocity[note] == 0)
+        if (_channels[ch].notes[note].velocity == 0)
           continue;
 
-        channel  = ch;
-        velocity = _channels[ch].notes.velocity[note];
+        channel = ch;
+        if (_channels[ch].notes[note].aftertouch > 0)
+          brightness = _channels[ch].notes[note].aftertouch;
+
+        else if (_channels[channel].aftertouch > 0)
+          brightness = _channels[channel].aftertouch;
+
+        else
+          brightness = _channels[ch].notes[note].velocity;
+
         break;
       }
 
-      if (!force && _leds[i].notes.channel == channel && _leds[i].notes.velocity == velocity)
+      if (!force && _leds[i].channel == channel && _leds[i].brightness == brightness)
         continue;
 
-      _leds[i].notes.channel  = channel;
-      _leds[i].notes.velocity = velocity;
+      _leds[i].channel    = channel;
+      _leds[i].brightness = brightness;
 
-      if (velocity == 0) {
+      if (brightness == 0) {
         LEDExt.setBrightness(i, 0);
         continue;
       }
@@ -238,8 +250,9 @@ private:
       const float h        = (float)config.channels[channel].color.h / 127.f * 360.f;
       const float s        = (float)config.channels[channel].color.s / 127.f;
       const float v        = (float)config.channels[channel].color.v / 127.f;
-      const float fraction = (float)velocity / 127.f;
-      LEDExt.setHSV(i, h, s, _channels[channel].volume * fraction * v);
+      const float fraction = (float)brightness / 127.f;
+      const float adjusted = 0.1f + (0.9f * fraction);
+      LEDExt.setHSV(i, h, s, _channels[channel].volume * adjusted * v);
     }
   }
 
@@ -253,7 +266,11 @@ private:
   void handleNote(uint8_t channel, uint8_t note, uint8_t velocity) override {
     switch (config.channels[channel].program) {
       case Configuration::Program::Notes:
-        _channels[channel].notes.velocity[note] = velocity;
+        _channels[channel].notes[note].velocity = velocity;
+        if (velocity == 0) {
+          _channels[channel].aftertouch             = 0;
+          _channels[channel].notes[note].aftertouch = 0;
+        }
         break;
 
       case Configuration::Program::Bar:
@@ -267,6 +284,20 @@ private:
 
   void handleNoteOff(uint8_t channel, uint8_t note, uint8_t velocity) override {
     handleNote(channel, note, 0);
+    _timeout_usec = micros();
+  }
+
+  void handleAftertouch(uint8_t channel, uint8_t note, uint8_t pressure) override {
+    _channels[channel].notes[note].aftertouch = pressure;
+
+    updateLEDs();
+    _timeout_usec = micros();
+  }
+
+  void handleAftertouchChannel(uint8_t channel, uint8_t pressure) override {
+    _channels[channel].aftertouch = pressure;
+
+    updateLEDs();
     _timeout_usec = micros();
   }
 
@@ -376,6 +407,11 @@ private:
         json_controller["name"]    = "Rainbow";
         json_controller["number"]  = (uint8_t)CC::Rainbow;
         json_controller["value"]   = (uint8_t)(_rainbow * 127.f);
+      }
+
+      {
+        JsonObject json_aftertouch = json_channel.createNestedObject("aftertouch");
+        json_aftertouch["value"]   = _channels[i].aftertouch;
       }
 
       JsonObject json_chromatic = json_channel.createNestedObject("chromatic");
