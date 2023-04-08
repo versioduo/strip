@@ -9,7 +9,7 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 13, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 14, "versioduo:samd:strip");
 
 static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
 static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
@@ -26,7 +26,7 @@ static constexpr struct Configuration {
     char name[32];
     uint8_t note{V2MIDI::A(-1)};
     uint8_t count{88};
-    uint8_t led{};
+    uint8_t start{};
     Program program{};
     struct {
       uint8_t h{0};
@@ -95,7 +95,6 @@ private:
   const char *_programNames[(uint8_t)Configuration::Program::_count]{"Notes", "Bar"};
 
   struct {
-    float volume;
     uint8_t aftertouch;
 
     struct {
@@ -114,6 +113,7 @@ private:
     uint8_t brightness;
   } _leds[128]{};
 
+  float _volume{100.f / 127.f};
   float _rainbow{};
   uint32_t _timeoutUsec{};
   V2Music::ForcedStop _force;
@@ -137,7 +137,6 @@ private:
     }
 
     for (uint8_t ch = 0; ch < 16; ch++) {
-      _channels[ch].volume     = 100.f / 127.f;
       _channels[ch].aftertouch = 0;
       _channels[ch].bar.playing.reset();
 
@@ -150,49 +149,12 @@ private:
     for (uint8_t i = 0; i < V2Base::countof(_leds); i++)
       _leds[i] = {};
 
+    _volume  = 100.f / 127.f;
     _rainbow = 0;
     LED.reset();
     LED.setHSV(V2Color::Orange, 0.95, 0.25);
 
     LEDExt.reset();
-  }
-
-  // Flash an LED bar, the length depending on the note velocity.
-  void updateLEDsBar() {
-    for (int8_t ch = 15; ch >= 0; ch--) {
-      if (config.channels[ch].program != Configuration::Program::Bar)
-        continue;
-
-      uint8_t note;
-      uint8_t velocity;
-      if (!_channels[ch].bar.playing.getLast(note, velocity)) {
-        if (!_channels[ch].bar.active)
-          continue;
-
-        for (uint8_t i = 0; i < config.channels[ch].count; i++)
-          LEDExt.setBrightness(config.channels[ch].led + i, 0);
-
-        _channels[ch].bar.active = false;
-        continue;
-      }
-
-      const float h = (float)config.channels[ch].color.h / 127.f * 360.f;
-      const float s = (float)config.channels[ch].color.s / 127.f;
-      const float v = (float)config.channels[ch].color.v / 127.f;
-
-      const float fraction   = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : velocity) / 127.f;
-      const float adjusted   = 0.3f + (0.7f * fraction);
-      const float brightness = _channels[ch].volume * adjusted * v;
-
-      const uint8_t count = ceilf((float)config.channels[ch].count * fraction);
-      for (uint8_t i = 0; i < count; i++)
-        LEDExt.setHSV(config.channels[ch].led + i, h, s, brightness);
-
-      for (uint8_t i = count; i < config.channels[ch].count; i++)
-        LEDExt.setBrightness(config.channels[ch].led + i, 0);
-
-      _channels[ch].bar.active = true;
-    }
   }
 
   // Show individual notes.
@@ -207,13 +169,13 @@ private:
         if (config.channels[ch].program != Configuration::Program::Notes)
           continue;
 
-        if (i < config.channels[ch].led)
+        if (i < config.channels[ch].start)
           continue;
 
-        if (i >= config.channels[ch].led + config.channels[ch].count)
+        if (i >= config.channels[ch].start + config.channels[ch].count)
           continue;
 
-        const uint8_t note = config.channels[ch].note + i - config.channels[ch].led;
+        const uint8_t note = config.channels[ch].note + i - config.channels[ch].start;
         if (note > 127)
           continue;
 
@@ -249,13 +211,49 @@ private:
       const float v        = (float)config.channels[channel].color.v / 127.f;
       const float fraction = (float)brightness / 127.f;
       const float adjusted = 0.1f + (0.9f * fraction);
-      LEDExt.setHSV(i, h, s, _channels[channel].volume * adjusted * v);
+      LEDExt.setHSV(i, h, s, _volume * adjusted * v);
+    }
+  }
+
+  // Flash an LED bar, the length depending on the note velocity.
+  void updateLEDsBar() {
+    for (int8_t ch = 15; ch >= 0; ch--) {
+      if (config.channels[ch].program != Configuration::Program::Bar)
+        continue;
+
+      uint8_t note;
+      uint8_t velocity;
+      if (!_channels[ch].bar.playing.getLast(note, velocity)) {
+        if (!_channels[ch].bar.active)
+          continue;
+
+        for (uint8_t i = 0; i < config.channels[ch].count; i++)
+          LEDExt.setBrightness(config.channels[ch].start + i, 0);
+
+        _channels[ch].bar.active = false;
+        continue;
+      }
+
+      const float h = (float)config.channels[ch].color.h / 127.f * 360.f;
+      const float s = (float)config.channels[ch].color.s / 127.f;
+      const float v = (float)config.channels[ch].color.v / 127.f;
+
+      const float fractionBrightness = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f;
+      const float brightness         = _volume * fractionBrightness * v;
+      const uint8_t count            = ceilf((float)config.channels[ch].count * ((float)velocity / 127.f));
+      for (uint8_t i = 0; i < count; i++)
+        LEDExt.setHSV(config.channels[ch].start + i, h, s, brightness);
+
+      for (uint8_t i = count; i < config.channels[ch].count; i++)
+        LEDExt.setBrightness(config.channels[ch].start + i, 0);
+
+      _channels[ch].bar.active = true;
     }
   }
 
   void updateLEDs(bool force = false) {
-    updateLEDsBar();
     updateLEDsNotes(force);
+    updateLEDsBar();
   }
 
   void handleNote(uint8_t channel, uint8_t note, uint8_t velocity) override {
@@ -299,9 +297,9 @@ private:
   void handleControlChange(uint8_t channel, uint8_t controller, uint8_t value) override {
     switch (controller) {
       case (uint8_t)CC::Volume:
-        _channels[channel].volume = (float)value / 127.f;
+        _volume = (float)value / 127.f;
         if (_rainbow > 0.f)
-          updateRainbow(_channels[channel].volume);
+          updateRainbow(_volume);
 
         else
           updateLEDs(true);
@@ -314,7 +312,7 @@ private:
           updateLEDs(true);
 
         } else
-          updateRainbow(_channels[channel].volume);
+          updateRainbow(_volume);
         break;
 
       case V2MIDI::CC::AllSoundOff:
@@ -385,17 +383,17 @@ private:
 
   void exportInput(JsonObject json) override {
     JsonArray jsonChannels = json.createNestedArray("channels");
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t ch = 0; ch < 16; ch++) {
       JsonObject jsonChannel = jsonChannels.createNestedObject();
-      jsonChannel["number"]  = i;
-      jsonChannel["name"]    = config.channels[i].name;
+      jsonChannel["number"]  = ch;
+      jsonChannel["name"]    = config.channels[ch].name;
 
       JsonArray jsonControllers = jsonChannel.createNestedArray("controllers");
       {
         JsonObject jsonController = jsonControllers.createNestedObject();
         jsonController["name"]    = "Volume";
         jsonController["number"]  = (uint8_t)CC::Volume;
-        jsonController["value"]   = (uint8_t)(_channels[i].volume * 127.f);
+        jsonController["value"]   = (uint8_t)(_volume * 127.f);
       }
       {
         JsonObject jsonController = jsonControllers.createNestedObject();
@@ -403,15 +401,24 @@ private:
         jsonController["number"]  = (uint8_t)CC::Rainbow;
         jsonController["value"]   = (uint8_t)(_rainbow * 127.f);
       }
-
       {
         JsonObject jsonAftertouch = jsonChannel.createNestedObject("aftertouch");
-        jsonAftertouch["value"]   = _channels[i].aftertouch;
+        jsonAftertouch["value"]   = _channels[ch].aftertouch;
       }
+      {
+        JsonObject jsonChromatic = jsonChannel.createNestedObject("chromatic");
+        switch (config.channels[ch].program) {
+          case Configuration::Program::Notes:
+            jsonChromatic["start"] = config.channels[ch].note;
+            jsonChromatic["count"] = config.channels[ch].count;
+            break;
 
-      JsonObject jsonChromatic = jsonChannel.createNestedObject("chromatic");
-      jsonChromatic["start"]   = config.channels[i].note;
-      jsonChromatic["count"]   = config.channels[i].count;
+          case Configuration::Program::Bar:
+            jsonChromatic["start"] = 0;
+            jsonChromatic["count"] = 127;
+            break;
+        }
+      }
     }
   }
 
@@ -465,12 +472,38 @@ private:
       {
         JsonObject setting = json.createNestedObject();
         setting["type"]    = "number";
-        setting["label"]   = "Start";
-        setting["text"]    = "LED";
-        setting["max"]     = 127;
+        setting["label"]   = "Program";
+        setting["max"]     = (uint8_t)Configuration::Program::_count - 1;
+        setting["input"]   = "select";
+        JsonArray names    = setting.createNestedArray("names");
+        for (uint8_t i = 0; i < (uint8_t)Configuration::Program::_count; i++)
+          names.add(_programNames[i]);
 
         char path[64];
-        sprintf(path, "channels[%d]/led", ch);
+        sprintf(path, "channels[%d]/program", ch);
+        setting["path"] = path;
+      }
+      {
+        JsonObject setting = json.createNestedObject();
+        setting["type"]    = "number";
+        setting["label"]   = "LED";
+        setting["text"]    = "Start";
+        setting["min"]     = 1;
+        setting["max"]     = 128;
+
+        char path[64];
+        sprintf(path, "channels[%d]/start", ch);
+        setting["path"] = path;
+      }
+      {
+        JsonObject setting = json.createNestedObject();
+        setting["type"]    = "number";
+        setting["label"]   = "LED";
+        setting["text"]    = "Count";
+        setting["max"]     = 128;
+
+        char path[64];
+        sprintf(path, "channels[%d]/count", ch);
         setting["path"] = path;
       }
       {
@@ -482,31 +515,6 @@ private:
 
         char path[64];
         sprintf(path, "channels[%d]/note", ch);
-        setting["path"] = path;
-      }
-      {
-        JsonObject setting = json.createNestedObject();
-        setting["type"]    = "number";
-        setting["label"]   = "Note";
-        setting["text"]    = "Count";
-        setting["max"]     = 128;
-
-        char path[64];
-        sprintf(path, "channels[%d]/count", ch);
-        setting["path"] = path;
-      }
-      {
-        JsonObject setting = json.createNestedObject();
-        setting["type"]    = "number";
-        setting["label"]   = "Program";
-        setting["max"]     = (uint8_t)Configuration::Program::_count - 1;
-        setting["input"]   = "select";
-        JsonArray names    = setting.createNestedArray("names");
-        for (uint8_t i = 0; i < (uint8_t)Configuration::Program::_count; i++)
-          names.add(_programNames[i]);
-
-        char path[64];
-        sprintf(path, "channels[%d]/program", ch);
         setting["path"] = path;
       }
       {
@@ -548,12 +556,22 @@ private:
         if (name)
           strlcpy(config.channels[ch].name, name, sizeof(config.channels[ch].name));
 
-        if (!jsonChannels[ch]["note"].isNull()) {
-          uint16_t note = jsonChannels[ch]["note"];
-          if (note > 127)
-            note = 127;
+        if (!jsonChannels[ch]["program"].isNull()) {
+          uint16_t program = jsonChannels[ch]["program"];
+          if (program > (uint8_t)Configuration::Program::_count - 1)
+            program = (uint8_t)Configuration::Program::_count - 1;
 
-          config.channels[ch].note = note;
+          config.channels[ch].program = (Configuration::Program)program;
+        }
+
+        if (!jsonChannels[ch]["start"].isNull()) {
+          uint16_t led = jsonChannels[ch]["start"];
+          if (led < 1)
+            led = 1;
+          if (led > 128)
+            led = 128;
+
+          config.channels[ch].start = led - 1;
         }
 
         if (!jsonChannels[ch]["count"].isNull()) {
@@ -564,20 +582,12 @@ private:
           config.channels[ch].count = count;
         }
 
-        if (!jsonChannels[ch]["led"].isNull()) {
-          uint16_t led = jsonChannels[ch]["led"];
-          if (led > 127)
-            led = 127;
+        if (!jsonChannels[ch]["note"].isNull()) {
+          uint16_t note = jsonChannels[ch]["note"];
+          if (note > 127)
+            note = 127;
 
-          config.channels[ch].led = led;
-        }
-
-        if (!jsonChannels[ch]["program"].isNull()) {
-          uint16_t program = jsonChannels[ch]["program"];
-          if (program > (uint8_t)Configuration::Program::_count - 1)
-            program = (uint8_t)Configuration::Program::_count - 1;
-
-          config.channels[ch].program = (Configuration::Program)program;
+          config.channels[ch].note = note;
         }
 
         JsonArray jsonColor = jsonChannels[ch]["color"];
@@ -627,20 +637,20 @@ private:
       jsonChannel["name"]    = config.channels[i].name;
 
       if (i == 0)
-        jsonChannel["#note"] = "The first MIDI note to map";
-      jsonChannel["note"] = config.channels[i].note;
+        jsonChannel["#program"] = "The channel\'s program, individual notes or a bar";
+      jsonChannel["program"] = (uint8_t)config.channels[i].program;
 
       if (i == 0)
-        jsonChannel["#count"] = "The number of notes to map";
+        jsonChannel["#start"] = "The position of the first LED on the strip";
+      jsonChannel["start"] = config.channels[i].start + 1;
+
+      if (i == 0)
+        jsonChannel["#count"] = "The number of leds to use";
       jsonChannel["count"] = config.channels[i].count;
 
       if (i == 0)
-        jsonChannel["#led"] = "The position of the first LED on the strip to map the notes to";
-      jsonChannel["led"] = config.channels[i].led;
-
-      if (i == 0)
-        jsonChannel["#program"] = "The channel\'s program, individual notes or a bar";
-      jsonChannel["program"] = (uint8_t)config.channels[i].program;
+        jsonChannel["#note"] = "The first MIDI note to map";
+      jsonChannel["note"] = config.channels[i].note;
 
       JsonArray jsonColor = jsonChannel.createNestedArray("color");
       jsonColor.add(config.channels[i].color.h);
