@@ -9,7 +9,7 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 14, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 15, "versioduo:samd:strip");
 
 static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
 static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
@@ -22,6 +22,7 @@ static constexpr struct Configuration {
     bool reverse{};
     float power{0.5};
   } leds;
+
   struct {
     char name[32];
     uint8_t note{V2MIDI::A(-1)};
@@ -34,6 +35,8 @@ static constexpr struct Configuration {
       uint8_t v{127};
     } color;
   } channels[16];
+
+  float cNotes{};
 } ConfigurationDefault{.channels{
   {.name{"White"}},
   {.name{"Red"}, .color{.h{0}, .s{127}}},
@@ -82,6 +85,7 @@ public:
 
   enum class CC {
     Volume  = V2MIDI::CC::ChannelVolume,
+    CNotes  = V2MIDI::CC::Controller85,
     Rainbow = V2MIDI::CC::Controller90,
   };
 
@@ -114,6 +118,7 @@ private:
   } _leds[128]{};
 
   float _volume{100.f / 127.f};
+  float _cNotes{};
   float _rainbow{};
   uint32_t _timeoutUsec{};
   V2Music::ForcedStop _force;
@@ -150,11 +155,13 @@ private:
       _leds[i] = {};
 
     _volume  = 100.f / 127.f;
+    _cNotes  = config.cNotes;
     _rainbow = 0;
     LED.reset();
     LED.setHSV(V2Color::Orange, 0.95, 0.25);
 
     LEDExt.reset();
+    updateLEDs(true);
   }
 
   // Show individual notes.
@@ -193,6 +200,13 @@ private:
           brightness = _channels[ch].notes[note].velocity;
 
         break;
+      }
+
+      if (brightness == 0 && _cNotes > 0.f) {
+        uint8_t note = V2MIDI::A(-1) + i;
+        uint8_t key  = note % 12;
+        if (key == 0)
+          brightness = _cNotes * 127.f;
       }
 
       if (!force && _leds[i].channel == channel && _leds[i].brightness == brightness)
@@ -305,6 +319,11 @@ private:
           updateLEDs(true);
         break;
 
+      case (uint8_t)CC::CNotes:
+        _cNotes = (float)value / 127.f;
+        updateLEDs(true);
+        break;
+
       case (uint8_t)CC::Rainbow:
         _rainbow = (float)value / 127.f;
         if (_rainbow <= 0.f) {
@@ -397,6 +416,12 @@ private:
       }
       {
         JsonObject jsonController = jsonControllers.createNestedObject();
+        jsonController["name"]    = "C Notes";
+        jsonController["number"]  = (uint8_t)CC::CNotes;
+        jsonController["value"]   = (uint8_t)(_cNotes * 127.f);
+      }
+      {
+        JsonObject jsonController = jsonControllers.createNestedObject();
         jsonController["name"]    = "Rainbow";
         jsonController["number"]  = (uint8_t)CC::Rainbow;
         jsonController["value"]   = (uint8_t)(_rainbow * 127.f);
@@ -449,6 +474,17 @@ private:
       setting["step"]    = 0.01;
       setting["default"] = ConfigurationDefault.leds.power;
       setting["path"]    = "leds/power";
+    }
+    {
+      JsonObject setting = json.createNestedObject();
+      setting["type"]    = "number";
+      setting["title"]   = "Guide";
+      setting["label"]   = "C Notes";
+      setting["min"]     = 0;
+      setting["max"]     = 1;
+      setting["step"]    = 0.01;
+      setting["default"] = ConfigurationDefault.cNotes;
+      setting["path"]    = "cNotes";
     }
 
     for (uint8_t ch = 0; ch < 16; ch++) {
@@ -546,6 +582,17 @@ private:
         config.leds.power = jsonLeds["power"];
     }
 
+    if (!json["cNotes"].isNull()) {
+      float cNotes = json["cNotes"];
+      if (cNotes > 1.f)
+        cNotes = 1;
+
+      else if (cNotes < 0.f)
+        cNotes = 0;
+
+      config.cNotes = cNotes;
+    }
+
     JsonArray jsonChannels = json["channels"];
     if (jsonChannels) {
       for (uint8_t ch = 0; ch < 16; ch++) {
@@ -629,6 +676,9 @@ private:
       jsonLeds["#power"] = "The maximum brightness of the LEDs (0..1)";
       jsonLeds["power"]  = serialized(String(config.leds.power, 2));
     }
+
+    json["#cNotes"] = "Mark the C notes with a blue dot (0..1)";
+    json["cNotes"]  = serialized(String(config.cNotes, 2));
 
     json["#channels"]      = "The MIDI channels with different colors and zones";
     JsonArray jsonChannels = json.createNestedArray("channels");
