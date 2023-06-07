@@ -657,6 +657,7 @@ private:
       }
     }
 
+    _cNotes = config.cNotes;
     LEDExt.setNumLEDs(config.leds.count);
     LEDExt.setDirection(config.leds.reverse);
     LEDExt.setMaxBrightness(config.leds.power);
