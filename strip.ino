@@ -1,4 +1,4 @@
-// © Kay Sievers <kay@versioduo.com>, 2022
+// © Kay Sievers <kay@versioduo.com>, 2022-2024
 // SPDX-License-Identifier: Apache-2.0
 
 #include <V2Base.h>
@@ -9,7 +9,7 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 15, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 16, "versioduo:samd:strip");
 
 static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
 static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
@@ -356,7 +356,7 @@ private:
       return;
 
     // Read incoming message.
-    StaticJsonDocument<4096> json;
+    JsonDocument json;
     if (deserializeJson(json, buffer + 2, len - 1))
       return;
 
@@ -401,37 +401,37 @@ private:
   }
 
   void exportInput(JsonObject json) override {
-    JsonArray jsonChannels = json.createNestedArray("channels");
+    JsonArray jsonChannels = json["channels"].to<JsonArray>();
     for (uint8_t ch = 0; ch < 16; ch++) {
-      JsonObject jsonChannel = jsonChannels.createNestedObject();
+      JsonObject jsonChannel = jsonChannels.add<JsonObject>();
       jsonChannel["number"]  = ch;
       jsonChannel["name"]    = config.channels[ch].name;
 
-      JsonArray jsonControllers = jsonChannel.createNestedArray("controllers");
+      JsonArray jsonControllers = jsonChannel["controllers"].to<JsonArray>();
       {
-        JsonObject jsonController = jsonControllers.createNestedObject();
+        JsonObject jsonController = jsonControllers.add<JsonObject>();
         jsonController["name"]    = "Volume";
         jsonController["number"]  = (uint8_t)CC::Volume;
         jsonController["value"]   = (uint8_t)(_volume * 127.f);
       }
       {
-        JsonObject jsonController = jsonControllers.createNestedObject();
+        JsonObject jsonController = jsonControllers.add<JsonObject>();
         jsonController["name"]    = "C Notes";
         jsonController["number"]  = (uint8_t)CC::CNotes;
         jsonController["value"]   = (uint8_t)(_cNotes * 127.f);
       }
       {
-        JsonObject jsonController = jsonControllers.createNestedObject();
+        JsonObject jsonController = jsonControllers.add<JsonObject>();
         jsonController["name"]    = "Rainbow";
         jsonController["number"]  = (uint8_t)CC::Rainbow;
         jsonController["value"]   = (uint8_t)(_rainbow * 127.f);
       }
       {
-        JsonObject jsonAftertouch = jsonChannel.createNestedObject("aftertouch");
+        JsonObject jsonAftertouch = jsonChannel["aftertouch"].to<JsonObject>();
         jsonAftertouch["value"]   = _channels[ch].aftertouch;
       }
       {
-        JsonObject jsonChromatic = jsonChannel.createNestedObject("chromatic");
+        JsonObject jsonChromatic = jsonChannel["chromatic"].to<JsonObject>();
         switch (config.channels[ch].program) {
           case Configuration::Program::Notes:
             jsonChromatic["start"] = config.channels[ch].note;
@@ -449,7 +449,7 @@ private:
 
   void exportSettings(JsonArray json) override {
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["title"]   = "LED";
       setting["label"]   = "Count";
@@ -459,14 +459,14 @@ private:
       setting["path"]    = "leds/count";
     }
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "toggle";
       setting["label"]   = "Reverse";
       setting["default"] = ConfigurationDefault.leds.reverse;
       setting["path"]    = "leds/reverse";
     }
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["label"]   = "Power";
       setting["min"]     = 0;
@@ -476,7 +476,7 @@ private:
       setting["path"]    = "leds/power";
     }
     {
-      JsonObject setting = json.createNestedObject();
+      JsonObject setting = json.add<JsonObject>();
       setting["type"]    = "number";
       setting["title"]   = "Guide";
       setting["label"]   = "C Notes";
@@ -489,7 +489,7 @@ private:
 
     for (uint8_t ch = 0; ch < 16; ch++) {
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "title";
 
         char name[64];
@@ -497,7 +497,7 @@ private:
         setting["title"] = name;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "text";
         setting["label"]   = "Name";
 
@@ -506,12 +506,12 @@ private:
         setting["path"] = path;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "number";
         setting["label"]   = "Program";
         setting["max"]     = (uint8_t)Configuration::Program::_count - 1;
         setting["input"]   = "select";
-        JsonArray names    = setting.createNestedArray("names");
+        JsonArray names    = setting["names"].to<JsonArray>();
         for (uint8_t i = 0; i < (uint8_t)Configuration::Program::_count; i++)
           names.add(_programNames[i]);
 
@@ -520,7 +520,7 @@ private:
         setting["path"] = path;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "number";
         setting["label"]   = "LED";
         setting["text"]    = "Start";
@@ -532,7 +532,7 @@ private:
         setting["path"] = path;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "number";
         setting["label"]   = "LED";
         setting["text"]    = "Count";
@@ -543,7 +543,7 @@ private:
         setting["path"] = path;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "note";
         setting["label"]   = "Note";
 
@@ -554,7 +554,7 @@ private:
         setting["path"] = path;
       }
       {
-        JsonObject setting = json.createNestedObject();
+        JsonObject setting = json.add<JsonObject>();
         setting["type"]    = "color";
         setting["ruler"]   = true;
 
@@ -667,7 +667,7 @@ private:
   void exportConfiguration(JsonObject json) override {
     {
       json["#leds"]       = "The properties of the connected LEDs";
-      JsonObject jsonLeds = json.createNestedObject("leds");
+      JsonObject jsonLeds = json["leds"].to<JsonObject>();
       jsonLeds["#count"]  = "The number of LEDs to drive";
       jsonLeds["count"]   = config.leds.count;
 
@@ -682,9 +682,9 @@ private:
     json["cNotes"]  = serialized(String(config.cNotes, 2));
 
     json["#channels"]      = "The MIDI channels with different colors and zones";
-    JsonArray jsonChannels = json.createNestedArray("channels");
+    JsonArray jsonChannels = json["channels"].to<JsonArray>();
     for (uint8_t i = 0; i < 16; i++) {
-      JsonObject jsonChannel = jsonChannels.createNestedObject();
+      JsonObject jsonChannel = jsonChannels.add<JsonObject>();
       jsonChannel["name"]    = config.channels[i].name;
 
       if (i == 0)
@@ -703,7 +703,7 @@ private:
         jsonChannel["#note"] = "The first MIDI note to map";
       jsonChannel["note"] = config.channels[i].note;
 
-      JsonArray jsonColor = jsonChannel.createNestedArray("color");
+      JsonArray jsonColor = jsonChannel["color"].to<JsonArray>();
       jsonColor.add(config.channels[i].color.h);
       jsonColor.add(config.channels[i].color.s);
       jsonColor.add(config.channels[i].color.v);
