@@ -1,0 +1,6 @@
+{
+  "cpu": {
+    "fqbn": "versioduo:samd:strip",
+    "name": "V2 strip"
+  }
+}
