@@ -5,7 +5,7 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 16, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 17, "versioduo:samd:strip");
 
 static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
 static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
@@ -29,27 +29,27 @@ static constexpr struct Configuration {
       uint8_t h{0};
       uint8_t s{0};
       uint8_t v{127};
-    } color;
+    } colour;
   } channels[16];
 
   float cNotes{};
 } ConfigurationDefault{.channels{
   {.name{"White"}},
-  {.name{"Red"}, .color{.h{0}, .s{127}}},
-  {.name{"Green"}, .color{.h{42}, .s{127}}},
-  {.name{"Blue"}, .color{.h{85}, .s{127}}},
-  {.name{"Cyan"}, .color{.h{63}, .s{127}}},
-  {.name{"Magenta"}, .color{.h{106}, .s{127}}},
-  {.name{"Yellow"}, .color{.h{21}, .s{127}}},
-  {.name{"Orange"}, .color{.h{11}, .s{127}}},
-  {.name{"Amber"}, .color{.h{8}, .s{127}}},
-  {.name{"Pink"}, .color{.h{116}, .s{100}}},
-  {.name{"Lavender"}, .color{.h{95}, .s{70}}},
-  {.name{"Champagne"}, .color{.h{12}, .s{100}}},
-  {.name{"Desert"}, .color{.h{10}, .s{40}}},
-  {.name{"Aquamarine"}, .color{.h{56}, .s{127}}},
-  {.name{"Cornflower"}, .color{.h{78}, .s{100}}},
-  {.name{"Aqua"}, .color{.h{77}, .s{50}}},
+  {.name{"Red"}, .colour{.h{0}, .s{127}}},
+  {.name{"Green"}, .colour{.h{42}, .s{127}}},
+  {.name{"Blue"}, .colour{.h{85}, .s{127}}},
+  {.name{"Cyan"}, .colour{.h{63}, .s{127}}},
+  {.name{"Magenta"}, .colour{.h{106}, .s{127}}},
+  {.name{"Yellow"}, .colour{.h{21}, .s{127}}},
+  {.name{"Orange"}, .colour{.h{11}, .s{127}}},
+  {.name{"Amber"}, .colour{.h{8}, .s{127}}},
+  {.name{"Pink"}, .colour{.h{116}, .s{100}}},
+  {.name{"Lavender"}, .colour{.h{95}, .s{70}}},
+  {.name{"Champagne"}, .colour{.h{12}, .s{100}}},
+  {.name{"Desert"}, .colour{.h{10}, .s{40}}},
+  {.name{"Aquamarine"}, .colour{.h{56}, .s{127}}},
+  {.name{"Cornflower"}, .colour{.h{78}, .s{100}}},
+  {.name{"Aqua"}, .colour{.h{77}, .s{50}}},
 }};
 
 static class Device : public V2Device {
@@ -62,13 +62,13 @@ public:
 
     help.device        = "Drives a WS2812 LED strip. LEDs are controlled by incoming MIDI notes, the "
                          "brightness is controlled by the note velocity. Different MIDI channels use "
-                         "different colors.";
+                         "different colours.";
     help.configuration = "# Power\n"
                          "The actual LED brightness depends on the version of the WS2812 "
                          "chip. The maximum brightness can be adjusted.\n"
                          "# Channel\n"
                          "The range of consecutive notes, the offset of the first LED to map the "
-                         "first note of the range to, and the color can be configured. Using "
+                         "first note of the range to, and the colour can be configured. Using "
                          "different start values allows to split the strip into different zones";
 
     system.download  = "https://versioduo.com/download";
@@ -219,9 +219,9 @@ private:
         continue;
       }
 
-      const float h        = (float)config.channels[channel].color.h / 127.f * 360.f;
-      const float s        = (float)config.channels[channel].color.s / 127.f;
-      const float v        = (float)config.channels[channel].color.v / 127.f;
+      const float h        = (float)config.channels[channel].colour.h / 127.f * 360.f;
+      const float s        = (float)config.channels[channel].colour.s / 127.f;
+      const float v        = (float)config.channels[channel].colour.v / 127.f;
       const float fraction = (float)brightness / 127.f;
       const float adjusted = 0.1f + (0.9f * fraction);
       LEDExt.setHSV(i, h, s, _volume * adjusted * v);
@@ -247,9 +247,9 @@ private:
         continue;
       }
 
-      const float h = (float)config.channels[ch].color.h / 127.f * 360.f;
-      const float s = (float)config.channels[ch].color.s / 127.f;
-      const float v = (float)config.channels[ch].color.v / 127.f;
+      const float h = (float)config.channels[ch].colour.h / 127.f * 360.f;
+      const float s = (float)config.channels[ch].colour.s / 127.f;
+      const float v = (float)config.channels[ch].colour.v / 127.f;
 
       const float   fractionBrightness = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f;
       const float   brightness         = _volume * fractionBrightness * v;
@@ -364,7 +364,7 @@ private:
     if (!jsonLed)
       return;
 
-    JsonArray jsonColours = jsonLed["colors"];
+    JsonArray jsonColours = jsonLed["colours"];
     if (!jsonColours)
       return;
 
@@ -555,11 +555,11 @@ private:
       }
       {
         JsonObject setting = json.add<JsonObject>();
-        setting["type"]    = "color";
+        setting["type"]    = "colour";
         setting["ruler"]   = true;
 
         char path[64];
-        sprintf(path, "channels[%d]/color", ch);
+        sprintf(path, "channels[%d]/colour", ch);
         setting["path"] = path;
       }
     }
@@ -639,22 +639,24 @@ private:
           config.channels[ch].note = note;
         }
 
-        JsonArray jsonColour = jsonChannels[ch]["color"];
+        JsonArray jsonColour = jsonChannels[ch]["colour"];
+        if (!jsonColour)
+          jsonColour = jsonChannels[ch]["color"];
         if (jsonColour) {
-          uint8_t color = jsonColour[0];
-          if (color > 127)
-            color = 127;
-          config.channels[ch].color.h = color;
+          uint8_t colour = jsonColour[0];
+          if (colour > 127)
+            colour = 127;
+          config.channels[ch].colour.h = colour;
 
           uint8_t saturation = jsonColour[1];
           if (saturation > 127)
             saturation = 127;
-          config.channels[ch].color.s = saturation;
+          config.channels[ch].colour.s = saturation;
 
           uint8_t brightness = jsonColour[2];
           if (brightness > 127)
             brightness = 127;
-          config.channels[ch].color.v = brightness;
+          config.channels[ch].colour.v = brightness;
         }
       }
     }
@@ -683,7 +685,7 @@ private:
     json["#cNotes"] = "Mark the C notes with a blue dot (0..1)";
     json["cNotes"]  = serialized(String(config.cNotes, 2));
 
-    json["#channels"]      = "The MIDI channels with different colors and zones";
+    json["#channels"]      = "The MIDI channels with different colours and zones";
     JsonArray jsonChannels = json["channels"].to<JsonArray>();
     for (uint8_t i = 0; i < 16; i++) {
       JsonObject jsonChannel = jsonChannels.add<JsonObject>();
@@ -705,10 +707,10 @@ private:
         jsonChannel["#note"] = "The first MIDI note to map";
       jsonChannel["note"] = config.channels[i].note;
 
-      JsonArray jsonColour = jsonChannel["color"].to<JsonArray>();
-      jsonColour.add(config.channels[i].color.h);
-      jsonColour.add(config.channels[i].color.s);
-      jsonColour.add(config.channels[i].color.v);
+      JsonArray jsonColour = jsonChannel["colour"].to<JsonArray>();
+      jsonColour.add(config.channels[i].colour.h);
+      jsonColour.add(config.channels[i].colour.s);
+      jsonColour.add(config.channels[i].colour.v);
     }
   }
 } Device;
