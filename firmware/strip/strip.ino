@@ -1,9 +1,5 @@
-// © Kay Sievers <kay@versioduo.com>, 2022-2024
-// SPDX-License-Identifier: Apache-2.0
-
 #include <V2Base.h>
 #include <V2Buttons.h>
-#include <V2Color.h>
 #include <V2Device.h>
 #include <V2LED.h>
 #include <V2MIDI.h>
@@ -19,12 +15,12 @@ static constexpr struct Configuration {
   enum class Program : uint8_t { Notes, Bar, _count };
   struct {
     uint8_t count{88};
-    bool reverse{};
-    float power{0.5};
+    bool    reverse{};
+    float   power{0.5};
   } leds;
 
   struct {
-    char name[32];
+    char    name[32];
     uint8_t note{V2MIDI::A(-1)};
     uint8_t count{88};
     uint8_t start{};
@@ -96,13 +92,13 @@ public:
   }
 
 private:
-  const char *_programNames[(uint8_t)Configuration::Program::_count]{"Notes", "Bar"};
+  const char* _programNames[(uint8_t)Configuration::Program::_count]{"Notes", "Bar"};
 
   struct {
     uint8_t aftertouch;
 
     struct {
-      bool active;
+      bool                  active;
       V2Music::Playing<128> playing;
     } bar;
 
@@ -117,10 +113,10 @@ private:
     uint8_t brightness;
   } _leds[128]{};
 
-  float _volume{100.f / 127.f};
-  float _cNotes{};
-  float _rainbow{};
-  uint32_t _timeoutUsec{};
+  float               _volume{100.f / 127.f};
+  float               _cNotes{};
+  float               _rainbow{};
+  uint32_t            _timeoutUsec{};
   V2Music::ForcedStop _force;
 
   void handleReset() override {
@@ -158,7 +154,7 @@ private:
     _cNotes  = config.cNotes;
     _rainbow = 0;
     LED.reset();
-    LED.setHSV(V2Color::Orange, 0.95, 0.25);
+    LED.setHSV(V2Colour::Orange, 0.95, 0.25);
 
     LEDExt.reset();
     updateLEDs(true);
@@ -190,14 +186,17 @@ private:
           continue;
 
         channel = ch;
-        if (_channels[ch].notes[note].aftertouch > 0)
+        if (_channels[ch].notes[note].aftertouch > 0) {
           brightness = _channels[ch].notes[note].aftertouch;
+        }
 
-        else if (_channels[channel].aftertouch > 0)
+        else if (_channels[channel].aftertouch > 0) {
           brightness = _channels[channel].aftertouch;
+        }
 
-        else
+        else {
           brightness = _channels[ch].notes[note].velocity;
+        }
 
         break;
       }
@@ -252,9 +251,9 @@ private:
       const float s = (float)config.channels[ch].color.s / 127.f;
       const float v = (float)config.channels[ch].color.v / 127.f;
 
-      const float fractionBrightness = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f;
-      const float brightness         = _volume * fractionBrightness * v;
-      const uint8_t count            = ceilf((float)config.channels[ch].count * ((float)velocity / 127.f));
+      const float   fractionBrightness = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f;
+      const float   brightness         = _volume * fractionBrightness * v;
+      const uint8_t count              = ceilf((float)config.channels[ch].count * ((float)velocity / 127.f));
       for (uint8_t i = 0; i < count; i++)
         LEDExt.setHSV(config.channels[ch].start + i, h, s, brightness);
 
@@ -330,8 +329,9 @@ private:
           LEDExt.reset();
           updateLEDs(true);
 
-        } else
+        } else {
           updateRainbow(_volume);
+        }
         break;
 
       case V2MIDI::CC::AllSoundOff:
@@ -343,7 +343,7 @@ private:
     _timeoutUsec = V2Base::getUsec();
   }
 
-  void handleSystemExclusive(const uint8_t *buffer, uint32_t len) override {
+  void handleSystemExclusive(const uint8_t* buffer, uint32_t len) override {
     if (len < 10)
       return;
 
@@ -364,29 +364,29 @@ private:
     if (!jsonLed)
       return;
 
-    JsonArray jsonColors = jsonLed["colors"];
-    if (!jsonColors)
+    JsonArray jsonColours = jsonLed["colors"];
+    if (!jsonColours)
       return;
 
     const uint8_t start = jsonLed["start"];
     for (uint8_t i = 0; i + start < 128; i++) {
-      JsonArray jsonColor = jsonColors[i];
-      if (!jsonColor)
+      JsonArray jsonColour = jsonColours[i];
+      if (!jsonColour)
         break;
 
       // Empty array, skip LED.
-      if (jsonColor[2].isNull())
+      if (jsonColour[2].isNull())
         continue;
 
-      uint8_t hue = jsonColor[0];
+      uint8_t hue = jsonColour[0];
       if (hue > 127)
         hue = 127;
 
-      uint8_t saturation = jsonColor[1];
+      uint8_t saturation = jsonColour[1];
       if (saturation > 127)
         saturation = 127;
 
-      uint8_t brightness = jsonColor[2];
+      uint8_t brightness = jsonColour[2];
       if (brightness > 127)
         brightness = 127;
 
@@ -584,11 +584,13 @@ private:
 
     if (!json["cNotes"].isNull()) {
       float cNotes = json["cNotes"];
-      if (cNotes > 1.f)
+      if (cNotes > 1.f) {
         cNotes = 1;
+      }
 
-      else if (cNotes < 0.f)
+      else if (cNotes < 0.f) {
         cNotes = 0;
+      }
 
       config.cNotes = cNotes;
     }
@@ -599,7 +601,7 @@ private:
         if (jsonChannels[ch].isNull())
           break;
 
-        const char *name = jsonChannels[ch]["name"];
+        const char* name = jsonChannels[ch]["name"];
         if (name)
           strlcpy(config.channels[ch].name, name, sizeof(config.channels[ch].name));
 
@@ -637,19 +639,19 @@ private:
           config.channels[ch].note = note;
         }
 
-        JsonArray jsonColor = jsonChannels[ch]["color"];
-        if (jsonColor) {
-          uint8_t color = jsonColor[0];
+        JsonArray jsonColour = jsonChannels[ch]["color"];
+        if (jsonColour) {
+          uint8_t color = jsonColour[0];
           if (color > 127)
             color = 127;
           config.channels[ch].color.h = color;
 
-          uint8_t saturation = jsonColor[1];
+          uint8_t saturation = jsonColour[1];
           if (saturation > 127)
             saturation = 127;
           config.channels[ch].color.s = saturation;
 
-          uint8_t brightness = jsonColor[2];
+          uint8_t brightness = jsonColour[2];
           if (brightness > 127)
             brightness = 127;
           config.channels[ch].color.v = brightness;
@@ -703,10 +705,10 @@ private:
         jsonChannel["#note"] = "The first MIDI note to map";
       jsonChannel["note"] = config.channels[i].note;
 
-      JsonArray jsonColor = jsonChannel["color"].to<JsonArray>();
-      jsonColor.add(config.channels[i].color.h);
-      jsonColor.add(config.channels[i].color.s);
-      jsonColor.add(config.channels[i].color.v);
+      JsonArray jsonColour = jsonChannel["color"].to<JsonArray>();
+      jsonColour.add(config.channels[i].color.h);
+      jsonColour.add(config.channels[i].color.s);
+      jsonColour.add(config.channels[i].color.v);
     }
   }
 } Device;
@@ -740,7 +742,7 @@ private:
   }
 
   void handleHold(uint8_t count) override {
-    LED.setHSV(V2Color::Cyan, 0.8, 0.15);
+    LED.setHSV(V2Colour::Cyan, 0.8, 0.15);
     Device.updateRainbow(0.75);
   }
 
