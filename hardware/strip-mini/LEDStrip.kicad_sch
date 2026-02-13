@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "b0192d4f-4cd8-461f-99bf-201297d1e0a7")
 	(paper "A4")
 	(title_block
@@ -11,108 +11,6 @@
 		(company "Versio Duo")
 	)
 	(lib_symbols
-		(symbol "Connector:TestPoint_Small"
-			(pin_numbers hide)
-			(pin_names
-				(offset 0.762) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "TP"
-				(at 0 3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "TestPoint_Small"
-				(at 0 2.032 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 5.08 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "test point"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "test point tp"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "Pin* Test*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "TestPoint_Small_0_1"
-				(circle
-					(center 0 0)
-					(radius 0.508)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "TestPoint_Small_1_1"
-				(pin passive line
-					(at 0 0 90)
-					(length 0)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "V2_74xGxx:74AHC1G125"
 			(pin_names
 				(offset 1.016)
@@ -136,8 +34,8 @@
 					)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-				(at 0 0 0)
+			(property "Footprint" "V2_Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 -17.78 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -146,7 +44,7 @@
 				)
 			)
 			(property "Datasheet" "http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf"
-				(at 1.27 -12.7 0)
+				(at 0 -20.32 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -155,7 +53,37 @@
 				)
 			)
 			(property "Description" "Single Buffer Gate Tri-State, Low-Voltage CMOS"
-				(at 0 0 0)
+				(at 0 -15.24 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Mouser" "595-SN74AHC1G125DBVR"
+				(at 0 -27.94 0)
+				(show_name)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Product" "SN74AHC1G125DBVR"
+				(at 0 -25.4 0)
+				(show_name)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Manufacturer" "Texas Instruments"
+				(at 0 -22.86 0)
+				(show_name)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -196,6 +124,24 @@
 				)
 			)
 			(symbol "74AHC1G125_1_1"
+				(pin input line
+					(at -7.62 0 0)
+					(length 3.81)
+					(name ""
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
 				(pin input inverted
 					(at 0 5.08 270)
 					(length 3.81)
@@ -214,20 +160,20 @@
 						)
 					)
 				)
-				(pin input line
-					(at -7.62 0 0)
-					(length 3.81)
+				(pin power_in line
+					(at 1.27 1.27 270)
+					(length 0.635)
 					(name ""
 						(effects
 							(font
-								(size 1.016 1.016)
+								(size 0 0)
 							)
 						)
 					)
-					(number "2"
+					(number "5"
 						(effects
 							(font
-								(size 1.016 1.016)
+								(size 0 0)
 							)
 						)
 					)
@@ -268,36 +214,131 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 1.27 1.27 270)
-					(length 0.635)
-					(name ""
+			)
+			(embedded_fonts no)
+		)
+		(symbol "V2_Connector:TestPoint_Pad_2.0x2.0mm"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim yes)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" ""
+				(at 0 2.032 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+				(at 0 -10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_Pad_2.0x2.0mm_0_1"
+				(circle
+					(center 0 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_Pad_2.0x2.0mm_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 0)
+					(name "1"
 						(effects
 							(font
-								(size 0 0)
+								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "5"
+					(number "1"
 						(effects
 							(font
-								(size 0 0)
+								(size 1.27 1.27)
 							)
 						)
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
-		(symbol "power:+5V"
+		(symbol "V2_power:+5V"
 			(power)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0)
+				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
+				(at 0 -11.43 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -306,7 +347,7 @@
 				)
 			)
 			(property "Value" "+5V"
-				(at 0 3.556 0)
+				(at 0 5.08 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -331,8 +372,8 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"+5V\""
-				(at 0 0 0)
+			(property "Description" ""
+				(at 0 -14.478 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -364,7 +405,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 0) (xy 0 2.54)
+						(xy 0 2.54) (xy 0.762 1.27)
 					)
 					(stroke
 						(width 0)
@@ -376,7 +417,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
+						(xy 0 0) (xy 0 2.54)
 					)
 					(stroke
 						(width 0)
@@ -390,8 +431,8 @@
 			(symbol "+5V_1_1"
 				(pin power_in line
 					(at 0 0 90)
-					(length 0) hide
-					(name "+5V"
+					(length 0)
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -407,17 +448,22 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
-		(symbol "power:GND"
+		(symbol "V2_power:GND"
 			(power)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0)
+				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
 			(property "Reference" "#PWR"
-				(at 0 -6.35 0)
+				(at 0 -7.62 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -426,11 +472,12 @@
 				)
 			)
 			(property "Value" "GND"
-				(at 0 -3.81 0)
+				(at 0 -5.08 0)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(hide yes)
 				)
 			)
 			(property "Footprint" ""
@@ -451,8 +498,8 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-				(at 0 0 0)
+			(property "Description" ""
+				(at 0 -12.7 0)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -486,8 +533,8 @@
 			(symbol "GND_1_1"
 				(pin power_in line
 					(at 0 0 270)
-					(length 0) hide
-					(name "GND"
+					(length 0)
+					(name "~"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -503,173 +550,24 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 	)
-	(junction
-		(at 172.72 137.16)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4048aed4-a4fe-4be2-a94b-12ba18dbaaa5")
-	)
-	(junction
-		(at 139.7 115.57)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "a60579ac-7707-4264-871b-7667b5f35121")
-	)
-	(polyline
-		(pts
-			(xy 196.85 85.09) (xy 120.65 85.09)
-		)
+	(rectangle
+		(start 114.3 80.01)
+		(end 186.69 130.81)
 		(stroke
 			(width 0)
 			(type dash)
 		)
-		(uuid "3ef62c9c-dfce-47b0-8f4c-9c199de78f9a")
-	)
-	(wire
-		(pts
-			(xy 121.92 111.76) (xy 130.81 111.76)
+		(fill
+			(type none)
 		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "51c125a2-4535-4bbc-892b-61f27eab32ab")
-	)
-	(wire
-		(pts
-			(xy 139.7 104.14) (xy 139.7 110.49)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "65a85d7a-2fee-4018-871d-1fcee95886bf")
-	)
-	(polyline
-		(pts
-			(xy 196.85 167.64) (xy 196.85 85.09)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "704cc19b-ba60-47b7-9b3d-d2d8144e7df2")
-	)
-	(wire
-		(pts
-			(xy 133.35 106.68) (xy 133.35 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7136973c-c429-4b2c-9006-55453d3ba2de")
-	)
-	(wire
-		(pts
-			(xy 144.78 111.76) (xy 172.72 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "73469155-2fb4-4ece-8115-9939c032a54c")
-	)
-	(wire
-		(pts
-			(xy 172.72 91.44) (xy 172.72 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "80ed7d9a-39b6-4b52-a0bc-e1b93e852a99")
-	)
-	(wire
-		(pts
-			(xy 172.72 151.13) (xy 172.72 157.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "90c7aed1-7789-499e-acbd-881600b13d86")
-	)
-	(wire
-		(pts
-			(xy 172.72 111.76) (xy 172.72 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9744c165-4554-4b8e-8ab3-171c9fa78c93")
-	)
-	(wire
-		(pts
-			(xy 133.35 115.57) (xy 139.7 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a52f2ce5-46f5-4a51-8d9f-ea4d2c8ce680")
-	)
-	(polyline
-		(pts
-			(xy 120.65 85.09) (xy 120.65 167.64)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "af8608d5-b81b-45b4-944a-cc578346b546")
-	)
-	(wire
-		(pts
-			(xy 172.72 130.81) (xy 172.72 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bfb9c5ba-fad2-413b-ae3c-b8426369c545")
-	)
-	(wire
-		(pts
-			(xy 139.7 113.03) (xy 139.7 115.57)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d01970dc-60f5-4c5f-9e74-39959c7fd1e4")
-	)
-	(polyline
-		(pts
-			(xy 120.65 167.64) (xy 196.85 167.64)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "eb1aca52-8b59-483c-8579-c75233724409")
-	)
-	(wire
-		(pts
-			(xy 138.43 106.68) (xy 133.35 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ec34dac3-7036-49c7-b382-42ee33d5321d")
+		(uuid 10152f81-febd-4dd0-818c-20bd8cea9650)
 	)
 	(text "Backup Data"
 		(exclude_from_sim no)
-		(at 157.48 134.62 0)
+		(at 148.336 115.062 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -679,9 +577,148 @@
 		)
 		(uuid "111df3ca-883a-4e47-a9c0-753878fbe835")
 	)
+	(junction
+		(at 165.1 123.19)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "02fd32bf-e9c6-4537-a3ce-c660b0891f7d")
+	)
+	(junction
+		(at 165.1 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "831ee8d3-4938-4fa5-ad7e-92330b4e86b2")
+	)
+	(junction
+		(at 165.1 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "88c6bf7e-932d-4959-b960-cf1221e17dd6")
+	)
+	(junction
+		(at 132.08 109.22)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a60579ac-7707-4264-871b-7667b5f35121")
+	)
+	(junction
+		(at 165.1 105.41)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bd988db2-8232-4b90-bcd6-1103c9c2c96a")
+	)
+	(wire
+		(pts
+			(xy 114.3 105.41) (xy 123.19 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51c125a2-4535-4bbc-892b-61f27eab32ab")
+	)
+	(wire
+		(pts
+			(xy 132.08 97.79) (xy 132.08 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "65a85d7a-2fee-4018-871d-1fcee95886bf")
+	)
+	(wire
+		(pts
+			(xy 125.73 100.33) (xy 125.73 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7136973c-c429-4b2c-9006-55453d3ba2de")
+	)
+	(wire
+		(pts
+			(xy 137.16 105.41) (xy 165.1 105.41)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "73469155-2fb4-4ece-8115-9939c032a54c")
+	)
+	(wire
+		(pts
+			(xy 125.73 109.22) (xy 132.08 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a52f2ce5-46f5-4a51-8d9f-ea4d2c8ce680")
+	)
+	(wire
+		(pts
+			(xy 165.1 96.52) (xy 165.1 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b998561c-3f0b-4f49-9594-759bc1bfc8c3")
+	)
+	(wire
+		(pts
+			(xy 132.08 106.68) (xy 132.08 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d01970dc-60f5-4c5f-9e74-39959c7fd1e4")
+	)
+	(wire
+		(pts
+			(xy 165.1 123.19) (xy 165.1 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "daa6fb3f-688e-462e-8288-17fa55b406ea")
+	)
+	(wire
+		(pts
+			(xy 165.1 114.3) (xy 165.1 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ea0fd42f-910f-4594-befc-01b784bd2a7f")
+	)
+	(wire
+		(pts
+			(xy 130.81 100.33) (xy 125.73 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec34dac3-7036-49c7-b382-42ee33d5321d")
+	)
+	(wire
+		(pts
+			(xy 165.1 105.41) (xy 165.1 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ed98abab-14cf-405e-ac43-7426863a51dd")
+	)
 	(label "WS2812-data"
-		(at 148.59 111.76 0)
-		(fields_autoplaced yes)
+		(at 140.97 105.41 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -692,8 +729,7 @@
 	)
 	(hierarchical_label "LED-Data"
 		(shape input)
-		(at 121.92 111.76 180)
-		(fields_autoplaced yes)
+		(at 114.3 105.41 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -703,16 +739,16 @@
 		(uuid "75d6f5ee-6aa2-46f8-8ec5-c2f9055db392")
 	)
 	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 97.79 270)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 116.84 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "17b6821a-f50a-45fc-b0eb-d1129e2e8154")
-		(property "Reference" "TP202"
-			(at 175.26 96.52 90)
+		(uuid "09619cba-a47e-4de5-a84a-a0d1c97d6384")
+		(property "Reference" "TP206"
+			(at 167.386 116.84 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -720,212 +756,17 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 99.06 90)
+		(property "Value" "~"
+			(at 167.132 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 172.72 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 172.72 97.79 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "11b8f37f-2596-430d-894d-e6a6afb5c570")
-		)
-		(instances
-			(project "strip-mini"
-				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP202")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 151.13 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "350e0a3b-035a-42d7-81cc-e27ee4dcf211")
-		(property "Reference" "TP207"
-			(at 175.26 149.86 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 152.4 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 172.72 156.21 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 172.72 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f1826e5b-bf13-4f69-8f0e-62599f17f01e")
-		)
-		(instances
-			(project "strip-mini"
-				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP207")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 130.81 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "4f92b4b5-87f4-41bc-9bb2-18d09686d72f")
-		(property "Reference" "TP205"
-			(at 175.26 129.54 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 132.08 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 135.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 172.72 135.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 172.72 130.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f53e9065-926f-4956-8c0b-58ef48e38fdf")
-		)
-		(instances
-			(project "strip-mini"
-				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP205")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 172.72 157.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "5d267433-704a-49e9-8162-b19186a3e57c")
-		(property "Reference" "#PWR0205"
-			(at 172.72 163.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 172.72 162.56 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 172.72 157.48 0)
+			(at 154.94 116.84 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -934,7 +775,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 172.72 157.48 0)
+			(at 165.1 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -943,7 +784,140 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 157.48 0)
+			(at 165.1 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "21ce4d37-9b4c-4a21-82f9-29a58c78c69e")
+		)
+		(instances
+			(project "strip-mini"
+				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
+					(reference "TP206")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 107.95 270)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "2be86236-e45b-4d99-ba01-eadae5176b97")
+		(property "Reference" "TP204"
+			(at 167.386 107.95 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 167.132 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 165.1 107.95 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9eb3a5a3-76c4-4593-88fe-5d55331770f4")
+		)
+		(instances
+			(project "strip-mini"
+				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
+					(reference "TP204")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "V2_power:GND")
+		(at 165.1 123.19 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5d267433-704a-49e9-8162-b19186a3e57c")
+		(property "Reference" "#PWR0205"
+			(at 158.75 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 160.02 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 165.1 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 165.1 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -964,16 +938,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 157.48 270)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 99.06 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "77be8a66-64c1-4934-a73d-81d4f29a46b2")
-		(property "Reference" "TP208"
-			(at 175.26 156.21 90)
+		(uuid "7269e9c3-3eef-4a71-9aa4-5d88b1edfcf6")
+		(property "Reference" "TP202"
+			(at 167.386 99.06 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -981,16 +955,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 158.75 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 162.56 0)
+		(property "Value" "~"
+			(at 167.132 99.06 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -998,8 +964,17 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 172.72 162.56 0)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1008,7 +983,73 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 157.48 0)
+			(at 165.1 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a6fc225b-5c04-4603-9493-2bd7354046bc")
+		)
+		(instances
+			(project "strip-mini"
+				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
+					(reference "TP202")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 123.19 270)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "77be8a66-64c1-4934-a73d-81d4f29a46b2")
+		(property "Reference" "TP207"
+			(at 167.386 123.19 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "~"
+			(at 167.132 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 165.1 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1022,15 +1063,15 @@
 		(instances
 			(project "strip-mini"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP208")
+					(reference "TP207")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 172.72 91.44 0)
+		(lib_id "V2_power:+5V")
+		(at 165.1 96.52 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1038,8 +1079,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "78e868c9-3726-42f6-b829-a6ef3f9133e8")
-		(property "Reference" "#PWR0201"
-			(at 172.72 95.25 0)
+		(property "Reference" "#PWR0203"
+			(at 168.91 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1048,15 +1089,16 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 172.72 87.63 0)
+			(at 161.29 96.5199 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
-			(at 172.72 91.44 0)
+			(at 165.1 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1065,7 +1107,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 172.72 91.44 0)
+			(at 165.1 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1074,7 +1116,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 91.44 0)
+			(at 165.1 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1088,15 +1130,15 @@
 		(instances
 			(project "strip-mini"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "#PWR0201")
+					(reference "#PWR0203")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 139.7 104.14 0)
+		(lib_id "V2_power:+5V")
+		(at 132.08 97.79 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1104,8 +1146,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8474d786-1984-400b-83fa-5a441a789254")
-		(property "Reference" "#PWR0202"
-			(at 139.7 107.95 0)
+		(property "Reference" "#PWR0201"
+			(at 132.08 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1114,7 +1156,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 139.7 99.06 0)
+			(at 132.08 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1122,7 +1164,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 139.7 104.14 0)
+			(at 132.08 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1131,7 +1173,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 139.7 104.14 0)
+			(at 132.08 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1140,7 +1182,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 139.7 104.14 0)
+			(at 132.08 97.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1154,15 +1196,15 @@
 		(instances
 			(project "strip-mini"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "#PWR0202")
+					(reference "#PWR0201")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 139.7 115.57 0)
+		(lib_id "V2_power:GND")
+		(at 132.08 109.22 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1170,8 +1212,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9e379c67-1038-458b-8657-9bdaf7bc7f32")
-		(property "Reference" "#PWR0203"
-			(at 139.7 121.92 0)
+		(property "Reference" "#PWR0202"
+			(at 132.08 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1180,15 +1222,16 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 139.7 120.65 0)
+			(at 132.08 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" ""
-			(at 139.7 115.57 0)
+			(at 132.08 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1197,7 +1240,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 139.7 115.57 0)
+			(at 132.08 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1206,7 +1249,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 139.7 115.57 0)
+			(at 132.08 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1220,88 +1263,23 @@
 		(instances
 			(project "strip-mini"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "#PWR0203")
+					(reference "#PWR0202")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 118.11 270)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 105.41 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b3ed8de6-e3fa-4529-92bc-13ff804f30a2")
-		(property "Reference" "TP204"
-			(at 175.26 116.84 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 119.38 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 123.19 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 172.72 123.19 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 172.72 118.11 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "060484e6-ec65-4fb3-8801-dc0e209d8b64")
-		)
-		(instances
-			(project "strip-mini"
-				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP204")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 111.76 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "c3403474-5dc7-4664-9246-65409c33ef70")
 		(property "Reference" "TP203"
-			(at 175.26 110.49 90)
+			(at 167.386 105.41 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1309,16 +1287,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 113.03 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 116.84 0)
+		(property "Value" "~"
+			(at 167.132 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1326,8 +1296,17 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 172.72 116.84 0)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1336,7 +1315,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 111.76 0)
+			(at 165.1 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1357,16 +1336,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 91.44 270)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 96.52 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "c757a5c1-8520-456b-ad3b-bf3a515fa1ac")
 		(property "Reference" "TP201"
-			(at 175.26 90.17 90)
+			(at 167.386 96.52 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1374,16 +1353,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 92.71 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 96.52 0)
+		(property "Value" "~"
+			(at 167.132 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1391,8 +1362,17 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 172.72 96.52 0)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 101.6 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1401,7 +1381,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 91.44 0)
+			(at 165.1 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1422,32 +1402,25 @@
 		)
 	)
 	(symbol
-		(lib_id "V2_74xGxx:74AHC1G125")
-		(at 138.43 111.76 0)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 125.73 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
-		(uuid "daf68655-aa55-4b9c-86a8-7d43f8a20570")
-		(property "Reference" "U201"
-			(at 127.635 102.87 0)
+		(uuid "cfb7423e-4a19-416a-b9c8-ab70795eda19")
+		(property "Reference" "TP208"
+			(at 167.386 125.73 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "74AHC1G125"
-			(at 132.715 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-			(at 138.43 111.76 0)
+		(property "Value" "~"
+			(at 167.132 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1455,8 +1428,17 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf"
-			(at 139.7 124.46 0)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 130.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1465,7 +1447,98 @@
 			)
 		)
 		(property "Description" ""
-			(at 138.43 111.76 0)
+			(at 165.1 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "276f12dc-f28e-45fa-b3c5-0788048a6e23")
+		)
+		(instances
+			(project "strip-mini"
+				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
+					(reference "TP208")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "V2_74xGxx:74AHC1G125")
+		(at 130.81 105.41 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "daf68655-aa55-4b9c-86a8-7d43f8a20570")
+		(property "Reference" "U201"
+			(at 120.015 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "74AHC1G125"
+			(at 123.571 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "V2_Package_TO_SOT_SMD:SOT-23-5"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf"
+			(at 132.08 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Single Buffer Gate Tri-State, Low-Voltage CMOS"
+			(at 130.81 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Mouser" "595-SN74AHC1G125DBVR"
+			(at 130.81 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Product" "SN74AHC1G125DBVR"
+			(at 130.81 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 130.81 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1498,8 +1571,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 172.72 137.16 0)
+		(lib_id "V2_power:GND")
+		(at 165.1 114.3 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1508,7 +1581,7 @@
 		(fields_autoplaced yes)
 		(uuid "ee7bf0a2-30f1-4dba-a866-b70badce08ee")
 		(property "Reference" "#PWR0204"
-			(at 172.72 143.51 0)
+			(at 158.75 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1517,15 +1590,16 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 172.72 142.24 0)
+			(at 160.02 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" ""
-			(at 172.72 137.16 0)
+			(at 165.1 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1534,7 +1608,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 172.72 137.16 0)
+			(at 165.1 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1543,7 +1617,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 137.16 0)
+			(at 165.1 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1564,16 +1638,16 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:TestPoint_Small")
-		(at 172.72 137.16 270)
+		(lib_id "V2_Connector:TestPoint_Pad_2.0x2.0mm")
+		(at 165.1 114.3 270)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
+		(exclude_from_sim yes)
+		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "f7fdfc42-4c6e-42a1-911a-a0f4e9396559")
-		(property "Reference" "TP206"
-			(at 175.26 135.89 90)
+		(property "Reference" "TP205"
+			(at 167.386 114.3 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1581,16 +1655,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TestPoint_Small"
-			(at 182.88 138.43 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
-			(at 172.72 142.24 0)
+		(property "Value" "~"
+			(at 167.132 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1598,8 +1664,17 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "~"
-			(at 172.72 142.24 0)
+		(property "Footprint" "V2_TestPoint:TestPoint_Pad_2.0x2.0mm"
+			(at 154.94 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1608,7 +1683,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 172.72 137.16 0)
+			(at 165.1 114.3 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1622,7 +1697,7 @@
 		(instances
 			(project "strip-mini"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be/075fc32c-a8ab-4fce-b25e-1dac013714da"
-					(reference "TP206")
+					(reference "TP205")
 					(unit 1)
 				)
 			)
