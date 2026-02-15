@@ -720,12 +720,6 @@
 		)
 	)
 	(junction
-		(at 147.32 81.28)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "271626ae-12b4-4b9f-9839-40039951f836")
-	)
-	(junction
 		(at 147.32 76.2)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -755,7 +749,7 @@
 		(lib_id "V2_Artwork:Board_strip")
 		(at 140.97 133.35 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
@@ -798,15 +792,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 140.97 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Enable" "0"
 			(at 140.97 133.35 0)
 			(effects
 				(font
@@ -908,7 +893,7 @@
 				)
 			)
 		)
-		(property "Value" ""
+		(property "Value" "~"
 			(at 168.91 135.89 0)
 			(effects
 				(font
@@ -957,7 +942,7 @@
 		(lib_id "V2_PCB_Devices:Button-top")
 		(at 189.23 133.35 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
@@ -999,15 +984,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 189.23 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Sim.Enable" "0"
 			(at 189.23 133.35 0)
 			(effects
 				(font
@@ -1091,16 +1067,17 @@
 		)
 	)
 	(symbol
-		(lib_id "V2_power:PWR_FLAG")
-		(at 147.32 81.28 90)
+		(lib_id "V2_power:GND")
+		(at 157.48 57.15 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "e995d846-5a83-4b77-a7d8-b01029861643")
-		(property "Reference" "#FLG0101"
-			(at 145.415 81.28 0)
+		(fields_autoplaced yes)
+		(uuid "cee359af-0af3-4974-b40b-57cbe1653ba1")
+		(property "Reference" "#PWR0102"
+			(at 163.83 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1108,16 +1085,17 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "PWR_FLAG"
-			(at 138.43 81.28 90)
+		(property "Value" "GND"
+			(at 162.56 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" ""
-			(at 147.32 81.28 0)
+			(at 157.48 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1126,7 +1104,72 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 147.32 81.28 0)
+			(at 157.48 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 157.48 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f4dcf787-3c73-487e-8be1-c7118040551b")
+		)
+		(instances
+			(project "strip-cover"
+				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be"
+					(reference "#PWR0102")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "V2_power:PWR_FLAG")
+		(at 157.48 57.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e995d846-5a83-4b77-a7d8-b01029861643")
+		(property "Reference" "#FLG0101"
+			(at 157.48 55.245 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 147.828 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 157.48 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 157.48 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1135,7 +1178,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 147.32 81.28 0)
+			(at 157.48 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
