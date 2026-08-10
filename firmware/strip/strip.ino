@@ -5,10 +5,10 @@
 #include <V2MIDI.h>
 #include <V2Music.h>
 
-V2DEVICE_METADATA("com.versioduo.strip", 18, "versioduo:samd:strip");
+V2DEVICE_METADATA("com.versioduo.strip", 19, "versioduo:samd:strip");
 
-static V2LED::WS2812 LED(2, PIN_LED_WS2812, &sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
-static V2LED::WS2812 LEDExt(128, PIN_LED_WS2812_EXT, &sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
+static V2LED::WS2812<2>   LED(PIN_LED_WS2812, sercom2, SPI_PAD_0_SCK_1, PIO_SERCOM);
+static V2LED::WS2812<128> LEDExt(PIN_LED_WS2812_EXT, sercom1, SPI_PAD_0_SCK_1, PIO_SERCOM);
 
 // Config, written to EEPROM.
 static constexpr struct Configuration {
@@ -154,7 +154,7 @@ private:
     _cNotes  = config.cNotes;
     _rainbow = 0;
     LED.reset();
-    LED.setHSV(V2Colour::Orange, 0.95, 0.25);
+    LED.hsv({V2Colour::Orange, 0.95, 0.25});
 
     LEDExt.reset();
     updateLEDs(true);
@@ -215,16 +215,16 @@ private:
       _leds[i].brightness = brightness;
 
       if (brightness == 0) {
-        LEDExt.setBrightness(i, 0);
+        LEDExt.brightness(0, i);
         continue;
       }
 
-      const float h        = (float)config.channels[channel].colour.h / 127.f * 360.f;
-      const float s        = (float)config.channels[channel].colour.s / 127.f;
-      const float v        = (float)config.channels[channel].colour.v / 127.f;
-      const float fraction = (float)brightness / 127.f;
-      const float adjusted = 0.1f + (0.9f * fraction);
-      LEDExt.setHSV(i, h, s, _volume * adjusted * v);
+      auto h{(float)config.channels[channel].colour.h / 127.f * 360.f};
+      auto s{(float)config.channels[channel].colour.s / 127.f};
+      auto v{(float)config.channels[channel].colour.v / 127.f};
+      auto fraction{(float)brightness / 127.f};
+      auto adjusted{0.1f + (0.9f * fraction)};
+      LEDExt.hsv({h, s, _volume * adjusted * v}, i);
     }
   }
 
@@ -241,24 +241,23 @@ private:
           continue;
 
         for (uint8_t i = 0; i < config.channels[ch].count; i++)
-          LEDExt.setBrightness(config.channels[ch].start + i, 0);
+          LEDExt.brightness(0, config.channels[ch].start + i);
 
         _channels[ch].bar.active = false;
         continue;
       }
 
-      const float h = (float)config.channels[ch].colour.h / 127.f * 360.f;
-      const float s = (float)config.channels[ch].colour.s / 127.f;
-      const float v = (float)config.channels[ch].colour.v / 127.f;
-
-      const float   fractionBrightness = (float)(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f;
-      const float   brightness         = _volume * fractionBrightness * v;
-      const uint8_t count              = ceilf((float)config.channels[ch].count * ((float)velocity / 127.f));
+      auto h{float{config.channels[ch].colour.h / 127.f * 360.f}};
+      auto s{float{config.channels[ch].colour.s / 127.f}};
+      auto v{float{config.channels[ch].colour.v / 127.f}};
+      auto fractionBrightness{float(_channels[ch].aftertouch > 0 ? _channels[ch].aftertouch : 127.f) / 127.f};
+      auto brightness{_volume * fractionBrightness * v};
+      auto count{ceilf((float)config.channels[ch].count * ((float)velocity / 127.f))};
       for (uint8_t i = 0; i < count; i++)
-        LEDExt.setHSV(config.channels[ch].start + i, h, s, brightness);
+        LEDExt.hsv({h, s, brightness}, config.channels[ch].start + i);
 
       for (uint8_t i = count; i < config.channels[ch].count; i++)
-        LEDExt.setBrightness(config.channels[ch].start + i, 0);
+        LEDExt.brightness(0, config.channels[ch].start + i);
 
       _channels[ch].bar.active = true;
     }
@@ -390,7 +389,7 @@ private:
       if (brightness > 127)
         brightness = 127;
 
-      LEDExt.setHSV(i + start, (float)hue / 127.f * 360.f, (float)saturation / 127.f, (float)brightness / 127.f);
+      LEDExt.hsv({float(hue) / 127.f * 360.f, float(saturation) / 127.f, float(brightness) / 127.f}, i + start);
     }
 
     _timeoutUsec = V2Base::getUsec();
@@ -662,9 +661,9 @@ private:
     }
 
     _cNotes = config.cNotes;
-    LEDExt.setNumLEDs(config.leds.count);
-    LEDExt.setDirection(config.leds.reverse);
-    LEDExt.setMaxBrightness(config.leds.power);
+    LEDExt.resize(config.leds.count);
+    LEDExt.reverse(config.leds.reverse);
+    LEDExt.brightnessMax(config.leds.power);
     updateLEDs(true);
   }
 
@@ -744,7 +743,7 @@ private:
   }
 
   void handleHold(uint8_t count) override {
-    LED.setHSV(V2Colour::Cyan, 0.8, 0.15);
+    LED.hsv({V2Colour::Cyan, 0.8, 0.15});
     Device.updateRainbow(0.75);
   }
 
@@ -757,10 +756,10 @@ void setup() {
   Serial.begin(9600);
 
   LED.begin();
-  LED.setMaxBrightness(0.5);
+  LED.brightnessMax(0.5);
 
   LEDExt.begin();
-  LEDExt.setMaxBrightness(Device.config.leds.power);
+  LEDExt.brightnessMax(Device.config.leds.power);
 
   Button.begin();
   Device.begin();
