@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "V2 strip")
-		(date "2026-04-25")
-		(rev "2026-02-11")
+		(date "2026-08-27")
+		(rev "2026-08-27")
 		(company "Versio Duo")
 		(comment 1 "WS2812 LED Strip Adapter")
 	)
@@ -2506,7 +2506,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "V2_LED:LED_0603"
+			(property "Footprint" "V2_LED:LED_1608"
 				(at 0 -14.986 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4349,14 +4349,14 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "V2_Production:Layer_Numbers"
+		(symbol "V2_Production:Layer_Numbers-4"
 			(exclude_from_sim no)
 			(in_bom no)
 			(on_board yes)
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "INFO"
-				(at 0 3.81 0)
+				(at 0 2.54 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -4365,7 +4365,7 @@
 					)
 				)
 			)
-			(property "Value" "Layer_Numbers"
+			(property "Value" "Layer_Numbers-4"
 				(at 0 -3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4376,7 +4376,7 @@
 					)
 				)
 			)
-			(property "Footprint" "V2_Production:Layer_Numbers"
+			(property "Footprint" "V2_Production:Layer_Numbers-4"
 				(at 0 -6.35 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -4409,26 +4409,26 @@
 					)
 				)
 			)
-			(symbol "Layer_Numbers_0_0"
-				(text "1 2 3 4"
-					(at 0 0 0)
-					(effects
-						(font
-							(size 1.27 1.27)
-						)
-					)
-				)
-			)
-			(symbol "Layer_Numbers_0_1"
+			(symbol "Layer_Numbers-4_0_1"
 				(rectangle
-					(start -5.08 1.27)
-					(end 5.08 -1.27)
+					(start -2.54 1.27)
+					(end 2.54 -1.27)
 					(stroke
 						(width 0)
 						(type default)
 					)
 					(fill
 						(type none)
+					)
+				)
+			)
+			(symbol "Layer_Numbers-4_1_1"
+				(text "1 2"
+					(at 0 0 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
 					)
 				)
 			)
@@ -4740,25 +4740,6 @@
 						)
 					)
 				)
-				(pin no_connect line
-					(at 0 -26.67 180)
-					(length 2.54)
-					(hide yes)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin input line
 					(at -7.62 0 0)
 					(length 2.54)
@@ -4797,6 +4778,25 @@
 				)
 			)
 			(symbol "TPS78433QWDRBRQ1_1_1"
+				(pin passive line
+					(at -7.62 0 0)
+					(length 2.54)
+					(hide yes)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 				(pin passive line
 					(at 0 -7.62 90)
 					(length 2.54)
@@ -6511,6 +6511,12 @@
 		(uuid "37717aed-7ae1-4d57-af8f-160d61754696")
 	)
 	(junction
+		(at 252.73 104.14)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "37aca87c-e036-4b41-ad14-645e65beed30")
+	)
+	(junction
 		(at 36.83 44.45)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6565,6 +6571,12 @@
 		(uuid "8096dd96-e9f0-4155-a951-ef2345a9978a")
 	)
 	(junction
+		(at 252.73 111.76)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cd912d37-3239-4a57-8683-70a5d3499901")
+	)
+	(junction
 		(at 59.69 120.65)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -6575,10 +6587,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fef76651-0bea-468b-9d76-c66eab8b56bf")
-	)
-	(no_connect
-		(at 252.73 106.68)
-		(uuid "20d07dfd-3be1-4626-bc37-eeef7a3be4a8")
 	)
 	(no_connect
 		(at 274.32 52.07)
@@ -6695,10 +6703,6 @@
 	(no_connect
 		(at 59.69 100.33)
 		(uuid "ae1fe753-76f3-4d89-a8bc-66ee7d24b7aa")
-	)
-	(no_connect
-		(at 252.73 114.3)
-		(uuid "dd043281-4934-446a-b4ab-e304bc802ba3")
 	)
 	(wire
 		(pts
@@ -7072,6 +7076,16 @@
 	)
 	(wire
 		(pts
+			(xy 252.73 104.14) (xy 252.73 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a55ed589-caa3-48a2-8029-fd7605c29d50")
+	)
+	(wire
+		(pts
 			(xy 85.09 27.94) (xy 95.25 27.94)
 		)
 		(stroke
@@ -7269,6 +7283,16 @@
 			(type default)
 		)
 		(uuid "edfaf941-9959-4c08-b7dd-d63731bcc120")
+	)
+	(wire
+		(pts
+			(xy 252.73 111.76) (xy 252.73 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef3e92a6-d79a-4430-928a-d33bda3690f7")
 	)
 	(wire
 		(pts
@@ -8055,7 +8079,7 @@
 		(at 227.33 152.4 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
@@ -8117,17 +8141,6 @@
 				)
 			)
 		)
-		(property "Sim.Enable" "0"
-			(at 227.33 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(instances
 			(project "strip"
 				(path "/6c8448b4-b04d-47e1-934e-e40cbe27a7be"
@@ -8138,7 +8151,7 @@
 		)
 	)
 	(symbol
-		(lib_id "V2_Production:Layer_Numbers")
+		(lib_id "V2_Production:Layer_Numbers-4")
 		(at 201.93 175.26 0)
 		(unit 1)
 		(body_style 1)
@@ -8159,7 +8172,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Layer_Numbers"
+		(property "Value" "Layer_Numbers-4"
 			(at 196.85 171.4499 0)
 			(hide yes)
 			(show_name no)
@@ -8171,7 +8184,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "V2_Production:Layer_Numbers"
+		(property "Footprint" "V2_Production:Layer_Numbers-4"
 			(at 201.93 181.61 0)
 			(hide yes)
 			(show_name no)
@@ -8778,7 +8791,7 @@
 				)
 			)
 		)
-		(property "Footprint" "V2_LED:LED_0603"
+		(property "Footprint" "V2_LED:LED_1608"
 			(at 129.54 67.056 0)
 			(hide yes)
 			(show_name no)
@@ -9118,7 +9131,7 @@
 		(at 201.93 156.21 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
@@ -9169,17 +9182,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 201.93 156.21 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Enable" "0"
 			(at 201.93 156.21 0)
 			(hide yes)
 			(show_name no)
@@ -13194,7 +13196,7 @@
 		(at 171.45 173.99 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
@@ -13246,17 +13248,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 171.45 173.99 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Enable" "0"
 			(at 171.45 173.99 0)
 			(hide yes)
 			(show_name no)
@@ -14249,7 +14240,7 @@
 		(at 227.33 160.02 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
@@ -14301,17 +14292,6 @@
 			)
 		)
 		(property "Description" ""
-			(at 227.33 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Sim.Enable" "0"
 			(at 227.33 160.02 0)
 			(hide yes)
 			(show_name no)

@@ -51,7 +51,23 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.2
+          "border_display_style": 2,
+          "border_hatch_pitch": 0.508,
+          "corner_radius": 0.0,
+          "corner_smoothing": 0,
+          "fill_mode": 0,
+          "hatch_gap": 1.5,
+          "hatch_orientation": 0.0,
+          "hatch_smoothing_level": 0,
+          "hatch_smoothing_value": 0.1,
+          "hatch_thickness": 1.0,
+          "min_clearance": 0.2,
+          "min_island_area": 10.0,
+          "min_thickness": 0.2,
+          "pad_connection": 2,
+          "remove_islands": 0,
+          "thermal_relief_gap": 0.508,
+          "thermal_relief_spoke_width": 0.508
         }
       },
       "diff_pair_dimensions": [
@@ -80,7 +96,7 @@
         "extra_footprint": "error",
         "footprint": "error",
         "footprint_filters_mismatch": "error",
-        "footprint_symbol_field_mismatch": "warning",
+        "footprint_symbol_field_mismatch": "error",
         "footprint_symbol_mismatch": "error",
         "footprint_type_mismatch": "error",
         "hole_clearance": "error",
@@ -99,7 +115,7 @@
         "mirrored_text_on_front_layer": "error",
         "missing_courtyard": "error",
         "missing_footprint": "error",
-        "missing_tuning_profile": "warning",
+        "missing_tuning_profile": "error",
         "net_conflict": "error",
         "nonmirrored_text_on_back_layer": "error",
         "npth_inside_courtyard": "error",
@@ -119,12 +135,12 @@
         "too_many_vias": "error",
         "track_angle": "error",
         "track_dangling": "error",
-        "track_not_centered_on_via": "ignore",
+        "track_not_centered_on_via": "error",
         "track_on_post_machined_layer": "error",
         "track_segment_length": "error",
         "track_width": "error",
         "tracks_crossing": "error",
-        "tuning_profile_track_geometries": "ignore",
+        "tuning_profile_track_geometries": "error",
         "unconnected_items": "error",
         "unresolved_variable": "error",
         "via_dangling": "error",
@@ -148,8 +164,8 @@
         "min_text_thickness": 0.1,
         "min_through_hole_diameter": 0.2,
         "min_track_width": 0.2,
-        "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.4,
+        "min_via_annular_width": 0.125,
+        "min_via_diameter": 0.45,
         "solder_mask_clearance": 0.0,
         "solder_mask_min_width": 0.0,
         "solder_mask_to_copper_clearance": 0.0,
@@ -167,33 +183,33 @@
       "teardrop_parameters": [
         {
           "td_allow_use_two_tracks": true,
-          "td_curve_segcount": 0,
+          "td_curve_segcount": 1,
           "td_height_ratio": 1.0,
           "td_length_ratio": 0.5,
-          "td_maxheight": 2.0,
-          "td_maxlen": 1.0,
+          "td_maxheight": 0.5,
+          "td_maxlen": 0.5,
           "td_on_pad_in_zone": false,
           "td_target_name": "td_round_shape",
           "td_width_to_size_filter_ratio": 0.9
         },
         {
           "td_allow_use_two_tracks": true,
-          "td_curve_segcount": 0,
+          "td_curve_segcount": 1,
           "td_height_ratio": 1.0,
           "td_length_ratio": 0.5,
-          "td_maxheight": 2.0,
-          "td_maxlen": 1.0,
+          "td_maxheight": 0.5,
+          "td_maxlen": 0.5,
           "td_on_pad_in_zone": false,
           "td_target_name": "td_rect_shape",
           "td_width_to_size_filter_ratio": 0.9
         },
         {
           "td_allow_use_two_tracks": true,
-          "td_curve_segcount": 0,
+          "td_curve_segcount": 1,
           "td_height_ratio": 1.0,
           "td_length_ratio": 0.5,
-          "td_maxheight": 2.0,
-          "td_maxlen": 1.0,
+          "td_maxheight": 0.5,
+          "td_maxlen": 0.5,
           "td_on_pad_in_zone": false,
           "td_target_name": "td_track_end",
           "td_width_to_size_filter_ratio": 0.9
@@ -201,11 +217,11 @@
       ],
       "track_widths": [
         0.0,
+        0.15,
         0.2,
         0.3,
-        0.45,
-        1.0,
-        2.0
+        0.5,
+        0.8
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -239,8 +255,12 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.45,
+          "diameter": 0.5,
           "drill": 0.2
+        },
+        {
+          "diameter": 0.6,
+          "drill": 0.3
         }
       ],
       "zones_allow_external_fillets": true,
@@ -253,7 +273,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": "2026-02-11"
+      "sch_revision": "2026-08-27"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -642,7 +662,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "strip-gerber",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "../../../../../Desktop/strip.step",
@@ -835,7 +855,7 @@
         "uuid": "6c8448b4-b04d-47e1-934e-e40cbe27a7be"
       }
     ],
-    "used_designators": "SWB101,H101-102,R101-104,J101-102,J201-203,FID101-103,Y101,#PWR101-131,#PWR201-204,D101-103,U101-102,U201,SW101-102,C101-109,ICON101-104,ESD101,INFO101-102,#FLG101-103",
+    "used_designators": "J101-102,J201-203,FID101-103,H101-102,SWB101,R101-104,Y101,#PWR101-131,#PWR201-206,D101-103,U101-102,U201,C101-109,C201,SW101-102,ICON101-104,ESD101,INFO101-102,#FLG101-103",
     "variants": []
   },
   "sheets": [
